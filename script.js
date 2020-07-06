@@ -8,6 +8,7 @@ let turn = 0
 let currentPlayer = red
 
 let board = document.querySelector(".board")
+
 let footer = document.querySelector("footer")
 
 let tiles = []
@@ -31,6 +32,8 @@ function createBoard() {
 
         board.appendChild(tile)
     }
+
+    board.addEventListener("click", selectTile)
 }
 
 createBoard()
@@ -39,26 +42,24 @@ createBoard()
 
 //Function to set clicked tile class of current player
 
-function selectTile(e, currentPlayer) {
-
+function selectTile(e) {
     
-    if (e.target.dataset.selected == "false"){
-        
-        e.target.classList.add(currentPlayer)
 
-        e.target.dataset.selected = true
+    if (e.target.classList.contains("tile")){
+        if (e.target.dataset.selected == "false"){
+            
+            e.target.classList.add(currentPlayer)
 
-        turn++
+            e.target.dataset.selected = true
 
-        printWinner()
+            turn++
+
+            printWinner()
+        }
     }
 }
 
-board.addEventListener("click", e =>{
-    if (e.target.classList.contains("tile")){
-    selectTile(e, currentPlayer)
-    }
-})
+
 
 //Function to switch players
 function playerSwitch () {
@@ -85,23 +86,16 @@ function printWinner(){
     else if (turn >= 5){
          if(checkWinner() == "red"){
             message.innerHTML = "Red Wins! Click Reset to play again."
-            board.removeEventListener("click", e =>{
-                if (e.target.classList.contains("tile")){
-                selectTile(e, currentPlayer)
-                }
-            })
+            
+            board.removeEventListener("click", selectTile)
         }
          else if (checkWinner() == "blue"){
             message.innerHTML = "Blue Wins! Click Reset to play again."
-            board.removeEventListener("click", e =>{
-                if (e.target.classList.contains("tile")){
-                selectTile(e, currentPlayer)
-                }
-            })
+            
+            board.removeEventListener("click",selectTile)
          }
          else {
         playerSwitch()
-        console.log("keep going")
          }
     }
     else {
@@ -115,35 +109,34 @@ function printWinner(){
 //Function to check for a winner
 function checkWinner() {
     
-        tiles = document.querySelectorAll(".tile")
+    tiles = document.querySelectorAll(".tile")
 
     let redTiles = []
     let blueTiles = []
 
-        let winner = "none"
+    let winner = "none"
 
-        tiles.forEach((n, i) =>{
-            if(n.classList.contains("red")){
-                redTiles.push(i) 
-            }
-            else if (n.classList.contains("blue")){
-                blueTiles.push(i)
-            }   
-        })
+    tiles.forEach((n, i) =>{
+        if(n.classList.contains("red")){
+            redTiles.push(i) 
+        }
+        else if (n.classList.contains("blue")){
+            blueTiles.push(i)
+        }   
+    })
 
-        winCombos.forEach( n => {
-            console.log(n)
-            if(n.every(v => redTiles.includes(v))){
-                winner = "red"
-                    }
-            
-            else if (n.every(v => blueTiles.includes(v))){
-                winner = "blue"
-            }
-            }
-        )
-    
-    
+    winCombos.forEach( n => {
+        
+        if(n.every(v => redTiles.includes(v))){
+            winner = "red"
+                }
+        else if (n.every(v => blueTiles.includes(v))){
+            winner = "blue"
+        }
+        }
+    )
+
+
     return winner
 
 }
@@ -152,13 +145,20 @@ function checkWinner() {
 function resetGame(){
 
     tiles = document.querySelectorAll(".tile")
+   
     tiles.forEach(n =>{
         n.setAttribute("class", "tile")
+       
         n.dataset.selected = "false"
+       
         currentPlayer = red
+       
         message.innerHTML = "Red chooses first"
+       
         turn = 0
     })
+
+    board.addEventListener("click", selectTile)
 }
 
 footer.addEventListener("click", e =>{
