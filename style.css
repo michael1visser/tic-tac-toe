@@ -5,12 +5,13 @@
 body {
     width: 100vw;
     height: 100vh;
+    font-size: 20px;
     
 }
 
 main {
     width: 100%;
-    height: 80%;
+    height: 70%;
     display: flex;
     justify-content: center;
 
@@ -40,4 +41,22 @@ main {
 
 .blue {
     background-color: blue;
+}
+
+footer {
+    height: 20%;
+    margin-top: 3%;
+
+    display: flex;
+    align-items: center;
+}
+
+.reset-button {
+    height: 60%;
+    padding: 0 3%;
+    font-size: 20px;
+}
+
+#message {
+    margin-left: 3%;
 }

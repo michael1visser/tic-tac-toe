@@ -10,6 +10,8 @@ let footer = document.querySelector("footer")
 
 let tiles = []
 
+let message = document.querySelector("#message")
+
 
 //Function to set tiles with class tile iterating over the array
 
@@ -54,10 +56,13 @@ board.addEventListener("click", e =>{
 function playerSwitch () {
     if (currentPlayer == "red"){
         currentPlayer = blue
+        
     }
     else {
         currentPlayer = red
     }
+
+    message.innerHTML = (`${currentPlayer} chooses next.`)
 }
 
 //Function to reset game
@@ -68,6 +73,7 @@ function resetGame(){
         n.setAttribute("class", "tile")
         n.dataset.selected = "false"
         currentPlayer = red
+        message.innerHTML = "Red chooses first"
     })
 }
 
