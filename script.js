@@ -12,7 +12,7 @@ let footer = document.querySelector("footer")
 
 let tiles = []
 
-let winCombos = [ [0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[3,4,6]]
+let winCombos = [ [0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
 
 let message = document.querySelector("#message")
 
@@ -22,7 +22,7 @@ let message = document.querySelector("#message")
 function createBoard() {
     for (let i=0; i<9; i++) {
         let tile = document.createElement("div")
-        //tile.setAttribute("id", `${i}`)
+        tile.setAttribute("id", `${i}`)
         tile.classList.add("tile")
         tile.dataset.selected = false
         board.appendChild(tile)
@@ -37,17 +37,14 @@ createBoard()
 
 function selectTile(e, currentPlayer) {
 
-    console.log("selected")
-    console.log(e)
+    //console.log("selected")
+    //console.log(e)
     if (e.target.dataset.selected == "false"){
-        console.log("false")
+        //console.log("false")
         e.target.classList.add(currentPlayer)
         e.target.dataset.selected = true
         turn++
         checkWinner()
-    }
-    else {
-        console.log("aready selected")
     }
 }
 
@@ -82,15 +79,32 @@ function checkWinner(){
         }
     }) */
 
-    if (turn == 9 && printWinner() == false) {
+    if (turn == 9 && printWinner() == "false") {
         message.innerHTML = "It's a tie. Click Reset to start a new game"
         console.log("tie")
         
     }
-    else if (turn >= 5 && printWinner() == false){
+    else if (turn >= 5){
+         if(printWinner() == "red"){
+            message.innerHTML = "Red Wins! Click Reset to play again."
+            board.removeEventListener("click", e =>{
+                if (e.target.classList.contains("tile")){
+                selectTile(e, currentPlayer)
+                }
+            })
+        }
+         else if (printWinner() == "blue"){
+            message.innerHTML = "Blue Wins! Click Reset to play again."
+            board.removeEventListener("click", e =>{
+                if (e.target.classList.contains("tile")){
+                selectTile(e, currentPlayer)
+                }
+            })
+         }
+         else {
         playerSwitch()
         console.log("keep going")
-        
+         }
     }
     else {
         playerSwitch()
@@ -99,45 +113,40 @@ function checkWinner(){
 }
 
 
+
 //Function to print the winner if it is not a tie
 function printWinner() {
     
         tiles = document.querySelectorAll(".tile")
 
-        let redTiles = []
-        let blueTiles = []
+    let redTiles = []
+    let blueTiles = []
 
-        tiles.forEach( n =>{
+        let winner = "false"
+
+        tiles.forEach((n, i) =>{
             if(n.classList.contains("red")){
-                redTiles.push(n) 
+                redTiles.push(i) 
             }
             else if (n.classList.contains("blue")){
-                blueTiles.push(n)
+                blueTiles.push(i)
             }   
         })
 
         winCombos.forEach( n => {
+            console.log(n)
             if(n.every(v => redTiles.includes(v))){
-                message.innerHTML = "Red Wins! Click Reset to play again."
-                board.removeEventListener("click", e =>{
-                    if (e.target.classList.contains("tile")){
-                    selectTile(e, currentPlayer)
+                winner = "red"
                     }
-                })
+            
+            else if (n.every(v => blueTiles.includes(v))){
+                winner = "blue"
             }
-            else if (n.every(v => redTiles.includes(v))){
-                message.innerHTML = "Blue Wins! Click Reset to play again."
-                board.removeEventListener("click", e =>{
-                    if (e.target.classList.contains("tile")){
-                    selectTile(e, currentPlayer)
-                    }
-                })
             }
-            else {
-                return false
-            }
-
-        })
+        )
+    
+    
+    return winner
 
 }
 
