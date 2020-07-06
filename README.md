@@ -11,7 +11,7 @@ Tic-Tac-Toe best played using Google's Chrome browser.
 
 ## Installation
 
-To install Tic-Tac-Toe Be sure to save them in the same directory (aka folder).
+To install Tic-Tac-Toe, download all repository files to your computer. Be sure to save them in the same directory (aka folder).
 
 Open index.html in Chrome.
 
