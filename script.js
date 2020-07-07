@@ -1,11 +1,11 @@
 
-let red = "red"
+let x = "x"
 
-let blue = "blue"
+let o = "o"
 
 let turn = 0
 
-let currentPlayer = red
+let currentPlayer = x
 
 let board = document.querySelector(".board")
 
@@ -63,12 +63,12 @@ function selectTile(e) {
 
 //Function to switch players
 function playerSwitch () {
-    if (currentPlayer == "red"){
-        currentPlayer = blue
+    if (currentPlayer == "x"){
+        currentPlayer = o
         
     }
     else {
-        currentPlayer = red
+        currentPlayer = x
     }
 
     message.innerHTML = (`${currentPlayer} chooses next.`)
@@ -84,13 +84,13 @@ function printWinner(){
         
     }
     else if (turn >= 5){
-         if(checkWinner() == "red"){
-            message.innerHTML = "Red Wins! Click Reset to play again."
+         if(checkWinner() == "x"){
+            message.innerHTML = "x Wins! Click Reset to play again."
             
             board.removeEventListener("click", selectTile)
         }
-         else if (checkWinner() == "blue"){
-            message.innerHTML = "Blue Wins! Click Reset to play again."
+         else if (checkWinner() == "o"){
+            message.innerHTML = "o Wins! Click Reset to play again."
             
             board.removeEventListener("click",selectTile)
          }
@@ -111,27 +111,27 @@ function checkWinner() {
     
     tiles = document.querySelectorAll(".tile")
 
-    let redTiles = []
-    let blueTiles = []
+    let xTiles = []
+    let oTiles = []
 
     let winner = "none"
 
     tiles.forEach((n, i) =>{
-        if(n.classList.contains("red")){
-            redTiles.push(i) 
+        if(n.classList.contains("x")){
+            xTiles.push(i) 
         }
-        else if (n.classList.contains("blue")){
-            blueTiles.push(i)
+        else if (n.classList.contains("o")){
+            oTiles.push(i)
         }   
     })
 
     winCombos.forEach( n => {
         
-        if(n.every(v => redTiles.includes(v))){
-            winner = "red"
+        if(n.every(v => xTiles.includes(v))){
+            winner = "x"
                 }
-        else if (n.every(v => blueTiles.includes(v))){
-            winner = "blue"
+        else if (n.every(v => oTiles.includes(v))){
+            winner = "o"
         }
         }
     )
@@ -151,9 +151,9 @@ function resetGame(){
        
         n.dataset.selected = "false"
        
-        currentPlayer = red
+        currentPlayer = x
        
-        message.innerHTML = "Red chooses first"
+        message.innerHTML = "x chooses first"
        
         turn = 0
     })

@@ -40,12 +40,19 @@ main {
     background-color: #ffffff;
 }
 
-.red { 
-    background-color: red;
+
+.x { 
+    background-image: url(x.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.blue {
-    background-color: blue;
+.o {
+    background-image: url(o.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 footer {
